@@ -20,7 +20,7 @@ order by price asc;
 Select MAX(Price) from store;
 Select * from Store where Price >10
 
-This database stores different colors of tee shirts sold at one store. I made a table titled "Store," with columns containg information about each item
+#This database stores different colors of tee shirts sold at one store. I made a table titled "Store," with columns containg information about each item
 such as the price, quantity in stock, and the aisle in which it is located. I then sorted the data by price- from lowest to highest, showed the maximum
 price, and filtered the data by items that cost more than 10 dollars.  
 
@@ -82,3 +82,27 @@ ON FEB.orderid=cust.order_id
 WHERE Feb.Quantity>2
 AND length(orderid) = 6 
 AND orderid <> 'Order ID'
+
+#There are some examples of filtering the data by date in a few different ways
+SELECT orderdate
+FROM BIT_DB.FebSales
+WHERE orderdate between '02/13/19 00:00' AND '02/18/19 00:00';
+
+SELECT location
+FROM BIT_DB.FebSales 
+WHERE orderdate = '02/18/19 01:35';
+
+SELECT sum(quantity)
+FROM BIT_DB.FebSales 
+WHERE orderdate like '02/18/19%';
+
+SELECT distinct Product
+FROM BIT_DB.FebSales
+WHERE Product like '%Batteries%';
+
+SELECT distinct Product, Price
+FROM BIT_DB.FebSales 
+WHERE Price like '%.99' order by Price desc;
+
+select Product, sum(Quantity) from BIT_DB.FebSales
+WHERE location like '%Los Angeles%' group by product;
