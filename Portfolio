@@ -83,7 +83,7 @@ WHERE Feb.Quantity>2
 AND length(orderid) = 6 
 AND orderid <> 'Order ID'
 
-#There are some examples of filtering the data by date in a few different ways
+# Below are some examples of filtering the data by date in a few different ways
 SELECT orderdate
 FROM BIT_DB.FebSales
 WHERE orderdate between '02/13/19 00:00' AND '02/18/19 00:00';
@@ -106,3 +106,24 @@ WHERE Price like '%.99' order by Price desc;
 
 select Product, sum(Quantity) from BIT_DB.FebSales
 WHERE location like '%Los Angeles%' group by product;
+
+SELECT location,count(orderID) FROM BIT_DB.JanSales where location LIKE '%NY%' and length(orderid) = 6 
+AND orderid <> 'Order ID' group by location having count(orderID) >2;
+
+select product, sum(quantity) as quantity from BIT_DB.FebSales where product like '%headphone%' 
+and length(orderid) = 6 
+AND orderid <> 'Order ID' group by product;
+
+select sum(quantity*price)/count(customers.acctnum) from BIT_DB.FebSales
+LEFT JOIN BIT_DB.customers on FebSales.orderid = customers.order_id where 
+length(orderid) = 6 
+AND orderid <> 'Order ID';
+
+select sum(quantity)/count(customers.acctnum) from BIT_DB.FebSales
+left join BIT_DB.customers on FebSales.orderid =customers.order_id where
+length(orderid) = 6 
+AND orderid <> 'Order ID';
+
+select product,sum(quantity*price) as 'total revenue' from BIT_DB.JanSales where length(orderid) = 6 
+AND orderid <> 'Order ID' 
+group by product order by sum(quantity*price) desc limit 1;
