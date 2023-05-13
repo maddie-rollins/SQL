@@ -166,10 +166,23 @@ artist_name
 ,avg(danceability)
 ,avg(energy)
 FROM BIT_DB.spotifydata
-GROUP BY artist_name, track_name
+GROUP BY artist_name, track_name;
 
 #Then I determined who the Top 10 artists are by popularity
 SELECT track_name, artist_name, popularity
 FROM BIT_DB.spotifydata
 ORDER BY popularity desc
-LIMIT 10
+LIMIT 10;
+
+#In the project below, I insterted data containing information about City Bike Lanes, such as the street the bike lane is located on, 
+safety ratings, the year installed, year updated, ect. I then used a window function to provide the following information: 
+# A list of all the bike lanes, both safety ratings for each lane, the average safety rating for each lane, and a label with the recommendation as
+#"Remove", "Leave As-Is", or "Improvements Needed".
+
+SELECT street, safetyrating,
+AVG(safetyrating) OVER (PARTITION BY street) as "Average_safety_rating",
+CASE WHEN AVG(safetyrating) OVER (PARTITION BY street) >=4 THEN "Leave As-Is"
+    WHEN AVG(safetyrating) OVER (PARTITION BY street) <2.5 THEN "Remove"
+    ELSE "Improvements Needed"
+    END AS "Recommendation"
+FROM CityBikeLanes;
